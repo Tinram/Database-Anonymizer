@@ -75,32 +75,32 @@ Fill the database with test data (use a tool such as Spawner, or a script such a
 
 ```sql
 mysql> USE anon_test;
-mysql> SELECT email FROM users;          # displays the default email column data
+mysql> SELECT email FROM users;           # displays the default email column data
 ```
 
 Configure *runner.php* or use the default parameters as they are, which specify:
 
 ```php
-    $tablesToTruncate = ['misc'];             # table called *misc* to be truncated (wiped, preserving table schema)
-    $numRows = 100;                           # number of rows to remain after clipping (reduced table rows, i.e. partial truncation)
-    $c = new Clip($db, $numRows);             # all database tables to be clipped, comment out to stop clipping
-    $anonymize = [ 'users' => ['email'] ];    # users.email column will be anonymized/obliterated
+$tablesToTruncate = ['misc'];             # table called *misc* to be truncated (wiped, preserving table schema)
+$numRows = 100;                           # number of rows to remain after clipping (reduced table rows, i.e. partial truncation)
+$c = new Clip($db, $numRows);             # all database tables to be clipped, comment out to stop clipping
+$anonymize = [ 'users' => ['email'] ];    # users.email column will be anonymized/obliterated
 ```
 
 ```bash
-    $ php runner.php                          # execute the anonymizer runner script
+    $ php runner.php                      # execute the anonymizer runner script
 ```
 
 ```sql
-    mysql> SELECT email FROM users;           # should now be 100 rows of pseudo email addresses
+mysql> SELECT email FROM users;           # should now be 100 rows of pseudo email addresses
 
-    mysql> SELECT COUNT(*) FROM misc;         # should be 0, as table has been truncated
+mysql> SELECT COUNT(*) FROM misc;         # should be 0, as table has been truncated
 
-    mysql> SELECT COUNT(*) FROM posts;        # should be 100, as table has been clipped
+mysql> SELECT COUNT(*) FROM posts;        # should be 100, as table has been clipped
 ```
 
 ```bash
-    $ cat src/Anonymizer/log/anon.log         # shows the action log
+$ cat src/Anonymizer/log/anon.log         # shows the action log
 ```
 
     <timestamp> | Truncated table misc.
@@ -112,7 +112,7 @@ Configure *runner.php* or use the default parameters as they are, which specify:
 Create a database export of reduced data and anonymized email addresses:
 
 ```bash
-    $ mysqldump -h localhost -u root -p --single-transaction anon_test | gzip -9 > anon_test_reduced.sql.gz
+$ mysqldump -h localhost -u root -p --single-transaction anon_test | gzip -9 > anon_test_reduced.sql.gz
 ```
 
 
