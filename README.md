@@ -1,7 +1,7 @@
 
 # Database Anonymizer
 
-#### Obliterate Personally Identifiable Information (PII) in a MySQL / MariaDB database.
+#### Obliterate Personally Identifiable Information (PII) in MySQL / MariaDB databases.
 
 
 ## Purpose
@@ -71,7 +71,7 @@ $ mysql -h localhost -u root -p < src/Anonymizer/sql/anon_test.sql
 
 Change any database credentials as needed in *src/Anonymizer/Configuration.php*
 
-Fill the database with test data (use a tool such as Spawner, or a script such as [Database_Filler](https://github.com/Tinram/Database-Filler), and create 150 rows of junk data for the next steps).
+Fill the database with test data (use a tool such as Spawner, or a script such as [Database_Filler](https://github.com/Tinram/Database-Filler)) and create 150 rows of junk data for the next steps).
 
 ```sql
 mysql> USE anon_test;
@@ -83,8 +83,8 @@ Configure *runner.php* or use the default parameters as they are, which specify:
 ```php
 $tablesToTruncate = ['misc'];             # table called *misc* to be truncated (wiped, preserving table schema)
 $numRows = 100;                           # number of rows to remain after clipping (reduced table rows, i.e. partial truncation)
-$c = new Clip($db, $numRows);             # all database tables to be clipped, comment out to stop clipping
-$anonymize = [ 'users' => ['email'] ];    # users.email column will be anonymized/obliterated
+$c = new Clip($db, $numRows);             # all database tables to be clipped
+$anonymize = [ 'users' => ['email'] ];    # users.email column data will be anonymized/obliterated
 ```
 
 ```bash
@@ -120,7 +120,7 @@ $ mysqldump -h localhost -u root -p --single-transaction anon_test | gzip -9 > a
 
 Although probably obvious, only run this script on a database copy, not the master.
 
-Tested on MySQL 5.7 and 8.0 and MariaDB 10.1 and 10.4
+Tested on MySQL 5.7 and 8.0, and MariaDB 10.1 and 10.4
 
 
 ## License
