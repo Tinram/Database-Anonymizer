@@ -1,26 +1,31 @@
 
 # Database Anonymizer
 
-#### Obliterate Personally Identifiable Information (PII) in MySQL / MariaDB databases.
+#### Obliterate Personally Identifiable Information (PII) in MySQL / MariaDB database copies and backups.
 
 
 ## Purpose
 
 ### Primary
 
-Obliterate sensitive personal data held in a database copy and / or exported logical backup files.
+Obliterate sensitive personal data held in a database copy and / or exported logical backup file.
 
-Sensitive personal data can be names, email addresses, telephone numbers, birthdays, and numerical identifiers. The selected personal data is destroyed to meet the requirements of data protection laws, GDPR regulations etc by overwriting with pseudo-data.
+Sensitive personal data can be names, email addresses, telephone numbers, birthdays, and numerical identifiers. The selected personal data is destroyed to meet the requirements of data protection laws, GDPR regulations etc. by overwriting with pseudo-data.
 
 ### Secondary
 
 Reduce the size of backup files for development usage via database table truncation and clipping.
 
 
+[1]: https://tinram.github.io/images/database-anonymizer.png
+![database-anonymizer][1]
+
+<br>
+
 ## Background
 
 Some MySQL databases are huge and contain sensitive personal data.  
-For development purposes, only a small subset of the database may be required.  
+For development usage, only a small subset of the database may be required.  
 *Database Anonymizer* provides one way of creating a database export that is much smaller than the original, and with suitable configuration, contains no PII.
 
 
@@ -81,7 +86,7 @@ mysql> SELECT email FROM users;           # displays the default email column da
 Configure *runner.php* or use the default parameters as they are, which specify:
 
 ```php
-$tablesToTruncate = ['misc'];             # table called *misc* to be truncated (wiped, preserving table schema)
+$tablesToTruncate = ['misc'];             # table called 'misc' to be truncated (wiped, preserving table schema)
 $numRows = 100;                           # number of rows to remain after clipping (reduced table rows, i.e. partial truncation)
 $c = new Clip($db, $numRows);             # all database tables to be clipped
 $anonymize = [ 'users' => ['email'] ];    # users.email column data will be anonymized/obliterated
