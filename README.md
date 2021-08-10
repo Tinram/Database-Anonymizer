@@ -1,7 +1,7 @@
 
 # Database Anonymizer
 
-#### Obliterate Personally Identifiable Information (PII) in MySQL / MariaDB database copies and backups.
+#### Obliterate Personally Identifiable Information (PII) in MySQL and MariaDB database copies and backups.
 
 
 ## Purpose
@@ -29,7 +29,7 @@ For development usage, only a small subset of the database may be required.
 *Database Anonymizer* provides one way of creating a database export that is much smaller than the original, and with suitable configuration, contains no PII.
 
 
-## Personal Data Colums
+## Personal Data Columns
 
 Data types recognised:
 
@@ -51,7 +51,7 @@ The users table in the example schema *anon_test.sql* provides a reference.
 
 Set-up in *runner.php*
 
-Anonymizer is reasonably modular.
+*Database Anonymizer* is reasonably modular.
 
 If logging is not required, comment out the line:
 
@@ -93,7 +93,7 @@ $anonymize = [ 'users' => ['email'] ];    # users.email column data will be anon
 ```
 
 ```bash
-    $ php runner.php                      # execute the anonymizer runner script
+$ php runner.php                          # execute the runner script
 ```
 
 ```sql
