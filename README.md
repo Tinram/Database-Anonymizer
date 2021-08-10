@@ -10,7 +10,7 @@
 
 Obliterate sensitive personal data held in a database copy and / or exported logical backup file.
 
-Sensitive personal data can be names, email addresses, telephone numbers, birthdays, and numerical identifiers. The selected personal data is destroyed to meet the requirements of data protection laws, GDPR regulations etc. by overwriting with pseudo-data.
+Sensitive personal data can be names, email addresses, telephone numbers, birthdays, and numerical identifiers. The selected personal data needs to be destroyed to meet the requirements of data protection laws, GDPR regulations etc. by overwriting with pseudo-data.
 
 ### Secondary
 
@@ -76,7 +76,7 @@ $ mysql -h localhost -u root -p < src/Anonymizer/sql/anon_test.sql
 
 Change any database credentials as needed in *src/Anonymizer/Configuration.php*
 
-Fill the database with test data (use a tool such as Spawner, or a script such as [Database_Filler](https://github.com/Tinram/Database-Filler)) and create 150 rows of junk data for the next steps).
+Fill the database with test data (use a tool such as Spawner, or a script such as [Database_Filler](https://github.com/Tinram/Database-Filler)) and create 150 rows of junk data for the next steps.
 
 ```sql
 mysql> USE anon_test;
@@ -97,11 +97,11 @@ $anonymize = [ 'users' => ['email'] ];    # users.email column data will be anon
 ```
 
 ```sql
-mysql> SELECT email FROM users;           # should now be 100 rows of pseudo email addresses
+mysql> SELECT email FROM users;           # returns 100 rows of pseudo email addresses
 
-mysql> SELECT COUNT(*) FROM misc;         # should be 0, as table has been truncated
+mysql> SELECT COUNT(*) FROM misc;         # returns 0, as table has been truncated
 
-mysql> SELECT COUNT(*) FROM posts;        # should be 100, as table has been clipped
+mysql> SELECT COUNT(*) FROM posts;        # returns 100, as table has been clipped
 ```
 
 ```bash
