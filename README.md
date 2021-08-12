@@ -1,21 +1,26 @@
 
 # Database Anonymizer
 
-#### Obliterate Personally Identifiable Information (PII) in MySQL and MariaDB database copies and backups.
+#### Remove Personally Identifiable Information (PII) from MySQL and MariaDB database copies and backups.
 
 
 ## Purpose
 
 ### Primary
 
-Obliterate sensitive personal data held in a database copy and / or exported logical backup file.
+Remove identifiable personal data stored in a database copy and/or exported logical backup file.
 
-Sensitive personal data can be names, email addresses, telephone numbers, birthdays, and numerical identifiers. The selected personal data needs to be destroyed to meet the requirements of data protection laws, GDPR regulations etc. by overwriting with pseudo-data.
+Personally Identifiable Information (PII) identifies an individual such as a full name or passport number, or when a number of identifiers can be combined to identify an individual.
+
+For database development work, the PII needs to be removed to meet the requirements of data protection laws such as EU GDPR, UK GDPR etc. From the UK Information Commissioner's Office website: *"If personal data can be truly anonymised then the anonymised data is not subject to the UK GDPR."*
+
+To maintain data context, the PII is replaced with pseudo-data.
 
 ### Secondary
 
 Reduce the size of backup files for development usage via database table truncation and clipping.
 
+#### Processed Table Example
 
 [1]: https://tinram.github.io/images/database-anonymizer.png
 ![database-anonymizer][1]
