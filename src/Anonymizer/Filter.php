@@ -11,7 +11,7 @@ final class Filter
         *
         * @author          Martin Latter
         * @copyright       Martin Latter 04/07/2021
-        * @version         0.09
+        * @version         0.10
         * @license         GNU GPL version 3.0 (GPL v3); http://www.gnu.org/licenses/gpl.html
         * @link            https://github.com/Tinram/Database-Anonymizer.git
         * @package         Anonymizer
@@ -45,8 +45,6 @@ final class Filter
     */
     private function filterTables(array $aTables): void
     {
-        $rxPattern = '/([0-9]+)/';
-
         foreach ($aTables as $sTable => $aFields)
         {
             # get PK of table
@@ -78,7 +76,7 @@ final class Filter
 
             $sColAtts = '
                 SELECT
-                    COLUMN_NAME, DATA_TYPE, COLUMN_TYPE
+                    COLUMN_NAME, DATA_TYPE, COLUMN_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION
                 FROM
                     information_schema.COLUMNS
                 WHERE
@@ -92,52 +90,40 @@ final class Filter
 
             while ($aRow = $rResult->fetch_assoc())
             {
-                $rx = preg_match($rxPattern, $aRow['COLUMN_TYPE'], $aM);
                 $iMaxLen = 0;
 
-                if (count($aM) === 0) # for MySQL v.8 schema-deprecated/information_schema-removed integer display widths
+                switch ($aRow['DATA_TYPE'])
                 {
-                    switch ($aRow['DATA_TYPE'])
-                    {
-                        case 'int':
-                            $iMaxLen = 9;
-                        break;
+                    case 'tinyint':
+                    case 'smallint':
+                    case 'mediumint':
+                    case 'int':
+                    case 'bigint':
+                        $iMaxLen = ((int) $aRow['NUMERIC_PRECISION']) - 1;
+                    break;
 
-                        case 'tinyint':
-                            $iMaxLen = 2;
-                        break;
+                    case 'varchar':
+                    case 'char':
+                    case 'tinytext':
+                        $iMaxLen = (int) $aRow['CHARACTER_MAXIMUM_LENGTH'];
+                    break;
 
-                        case 'smallint':
-                            $iMaxLen = 4;
-                        break;
+                    case 'text':
+                    case 'mediumtext':
+                    case 'longtext':
+                        $iMaxLen = 255;
+                    break;
 
-                        case 'mediumint':
-                            $iMaxLen = 6;
-                        break;
+                    case 'date':
+                    case 'datetime':
+                    case 'timestamp':
+                    case 'float':
+                    case 'decimal':
+                        $iMaxLen = 0;
+                    break;
 
-                        default:
-                            $iMaxLen = 0;
-                    }
-                }
-                else
-                {
-                    switch ($aRow['COLUMN_TYPE'])
-                    {
-                        case 'text':
-                            $iMaxLen = 255;
-                        break;
-
-                        case 'date':
-                        case 'datetime':
-                        case 'timestamp':
-                        case 'float':
-                        case 'decimal':
-                            $iMaxLen = 0;
-                        break;
-
-                        default:
-                            $iMaxLen = (int) ($aM[0] - 1);
-                    }
+                    default:
+                        $iMaxLen = 0;
                 }
 
                 $aColAttributes[$aRow['COLUMN_NAME']] = ['data_type' => $aRow['DATA_TYPE'], 'max_length' => $iMaxLen];
