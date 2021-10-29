@@ -9,12 +9,12 @@ final class CharGenerator
     /**
         * Generate character sequences for pseudo data.
         *
-        * email, number, text, and gibberish output
-        * also alpha uppercase and fixed data output available via the methods.
+        * Email, number, text, and gibberish output.
+        * Alpha uppercase and fixed data output available via the methods.
         *
         * @author          Martin Latter
         * @copyright       Martin Latter 05/07/2021
-        * @version         0.06
+        * @version         0.07
         * @license         GNU GPL version 3.0 (GPL v3); http://www.gnu.org/licenses/gpl.html
         * @link            https://github.com/Tinram/Database-Anonymizer.git
         * @package         Anonymizer
@@ -30,9 +30,9 @@ final class CharGenerator
         return self::generateRandomString($iLength, $sType);
     }
 
-    public static function generateNumber(int $iLength = 10): string
+    public static function generateNumber(int $iLength = 10): int
     {
-        return self::generateRandomString($iLength, 'number');
+        return (int) self::generateRandomString($iLength, 'number');
     }
 
     public static function generateText(int $iLength = 30, string $sType = 'alpha'): string
@@ -43,6 +43,16 @@ final class CharGenerator
     public static function generateDate(int $iLength = 10, string $sType = 'date', string $sFormat = ''): string
     {
         return self::generateRandomString($iLength, $sType, $sFormat);
+    }
+
+    public static function generateYear(int $iStart = 1900, int $iEnd = 0): int
+    {
+        if ($iEnd === 0)
+        {
+            $iEnd = (int) date('Y');
+        }
+
+        return mt_rand($iStart, $iEnd);
     }
 
     /**
@@ -99,8 +109,8 @@ final class CharGenerator
 
             case 'date':
             case 'timestamp':
-                $start = '1970-01-01';
-                $iMin = strtotime($start);
+                $sStart = '1970-01-01';
+                $iMin = strtotime($sStart);
                 $iVal = mt_rand($iMin, time());
                 $sFormat = ($sFormat === 'day') ? 'Y-m-d' : 'Y-m-d H:i:s';
                 $sChars = date($sFormat, $iVal);
@@ -170,7 +180,8 @@ final class CharGenerator
             self::generateText(30, 'fixed'),
             self::generateNumber(16),
             self::generateDate(20, 'date', 'day'),
-            self::generateDate(20, 'date', 'timestamp')
+            self::generateDate(20, 'date', 'timestamp'),
+            self::generateYear(1970, 2021)
         ]);
     }
 }
