@@ -56,6 +56,11 @@ final class CharGeneratorTest extends TestCase
         $this->assertMatchesRegularExpression('/[0-9]{4}\-[0-9]{2}\-[0-9]{2}/', CharGenerator::generateDate(20, 'date', 'day'));
     }
 
+    public function testYear(): void
+    {
+        $this->assertMatchesRegularExpression('/[0-9]{4}/', CharGenerator::generateYear(1900, 2030));
+    }
+
     public function testTimestamp(): void
     {
         $this->assertMatchesRegularExpression('/[0-9]{4}\-[0-9]{2}\-[0-9]{2}\s[0-9]{2}:[0-9]{2}:[0-9]{2}/', CharGenerator::generateDate(20, 'date', 'timestamp'));
