@@ -11,7 +11,7 @@ final class Clip
         *
         * @author          Martin Latter
         * @copyright       Martin Latter 04/07/2021
-        * @version         0.06
+        * @version         0.07
         * @license         GNU GPL version 3.0 (GPL v3); http://www.gnu.org/licenses/gpl.html
         * @link            https://github.com/Tinram/Database-Anonymizer.git
         * @package         Anonymizer
@@ -46,11 +46,14 @@ final class Clip
         $aTableNames = [];
 
         $sTableNamesQuery = '
-            SELECT TABLE_NAME
-            FROM information_schema.tables
+            SELECT
+                TABLE_NAME
+            FROM
+                information_schema.TABLES
             WHERE
                 TABLE_TYPE = "BASE TABLE"
-            AND TABLE_SCHEMA = "' . $this->db->dbname . '"';
+            AND
+                TABLE_SCHEMA = "' . $this->db->dbname . '"';
 
         $rResult = $this->db->conn->query($sTableNamesQuery);
 

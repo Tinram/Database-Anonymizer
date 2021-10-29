@@ -11,7 +11,7 @@ final class Filter
         *
         * @author          Martin Latter
         * @copyright       Martin Latter 04/07/2021
-        * @version         0.08
+        * @version         0.09
         * @license         GNU GPL version 3.0 (GPL v3); http://www.gnu.org/licenses/gpl.html
         * @link            https://github.com/Tinram/Database-Anonymizer.git
         * @package         Anonymizer
@@ -51,12 +51,16 @@ final class Filter
         {
             # get PK of table
             $sPrimaryKey = '
-                SELECT COLUMN_NAME
-                FROM INFORMATION_SCHEMA.COLUMNS
+                SELECT
+                    COLUMN_NAME
+                FROM
+                    information_schema.COLUMNS
                 WHERE
                     COLUMN_KEY = "PRI"
-                AND TABLE_SCHEMA = "' . $this->db->dbname . '"
-                AND TABLE_NAME = "' . $sTable . '"';
+                AND
+                    TABLE_SCHEMA = "' . $this->db->dbname . '"
+                AND
+                    TABLE_NAME = "' . $sTable . '"';
 
             $rResult = $this->db->conn->query($sPrimaryKey);
             $sPrimaryKey = $rResult->fetch_row()[0];
@@ -73,12 +77,16 @@ final class Filter
             $sColumns = join(',', $aSQLFields);
 
             $sColAtts = '
-                SELECT COLUMN_NAME, DATA_TYPE, COLUMN_TYPE
-                FROM INFORMATION_SCHEMA.COLUMNS
+                SELECT
+                    COLUMN_NAME, DATA_TYPE, COLUMN_TYPE
+                FROM
+                    information_schema.COLUMNS
                 WHERE
                     TABLE_SCHEMA = "' . $this->db->dbname . '"
-                AND TABLE_NAME = "' . $sTable . '"
-                AND COLUMN_NAME IN(' . $sColumns . ')';
+                AND
+                    TABLE_NAME = "' . $sTable . '"
+                AND
+                    COLUMN_NAME IN(' . $sColumns . ')';
 
             $rResult = $this->db->conn->query($sColAtts);
 
