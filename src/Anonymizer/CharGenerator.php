@@ -14,7 +14,7 @@ final class CharGenerator
         *
         * @author          Martin Latter
         * @copyright       Martin Latter 05/07/2021
-        * @version         0.07
+        * @version         0.08
         * @license         GNU GPL version 3.0 (GPL v3); http://www.gnu.org/licenses/gpl.html
         * @link            https://github.com/Tinram/Database-Anonymizer.git
         * @package         Anonymizer
@@ -45,14 +45,14 @@ final class CharGenerator
         return self::generateRandomString($iLength, $sType, $sFormat);
     }
 
-    public static function generateYear(int $iStart = 1900, int $iEnd = 0): int
+    public static function generateYear(int $iStart = 1900, int $iEnd = 0): string
     {
         if ($iEnd === 0)
         {
             $iEnd = (int) date('Y');
         }
 
-        return mt_rand($iStart, $iEnd);
+        return (string) mt_rand($iStart, $iEnd);
     }
 
     /**
