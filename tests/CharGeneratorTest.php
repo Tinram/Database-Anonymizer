@@ -43,12 +43,12 @@ final class CharGeneratorTest extends TestCase
 
     public function testInteger(): void
     {
-        $this->assertStringMatchesFormat('%d', CharGenerator::generateNumber(16));
+        $this->assertStringMatchesFormat('%d', (string) CharGenerator::generateNumber(16));
     }
 
     public function testInteger2(): void
     {
-        $this->assertMatchesRegularExpression('/[0-9]{15}/', CharGenerator::generateNumber(16)); # 16=15 in app to prevent MySQL column overflow
+        $this->assertMatchesRegularExpression('/[0-9]{15}/', (string) CharGenerator::generateNumber(16)); # 16=15 in app to prevent MySQL column overflow
     }
 
     public function testDay(): void
